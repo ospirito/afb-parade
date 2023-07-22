@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "aosp/afb-parade",
+  "version": "0.0.1",
+  "title": "Leader Bio Block",
+  "category": "widgets",
+  "icon": "nametag",
+  "description": "Headshot and details for board members",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "afb-parade",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "attributes": {
+    "headshotURL": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "img",
+      "attribute": "src",
+      "default": "//atlantafreedombands.com/wp-content/uploads/2023/05/WhatWeStandFor-768x760_1.png"
+    },
+    "headshotId": {
+      "type": "number",
+      "default": 0
+    },
+    "name": {
+      "type": "string",
+      "default": "Buz Carr"
+    },
+    "pronouns": {
+      "type": "string",
+      "default": "He/Him"
+    },
+    "title": {
+      "type": "string",
+      "default": "President"
+    },
+    "email": {
+      "type": "string",
+      "default": "President@AtlantaFreedomBands.com"
+    },
+    "size": {
+      "enum": [
+        "large",
+        "small"
+      ]
+    }
+  }
+}

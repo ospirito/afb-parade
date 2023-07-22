@@ -1,0 +1,27 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-aosp-afb-parade {
+	.afb-profile{
+		width: 95%;
+		background-color: transparent;
+		text-align: center;
+	}
+	img{
+		width: 80%;
+		margin: auto;
+	}
+	.name{
+		font-size: larger;
+		font-weight: bolder;
+	}
+	.pronouns{
+		font-weight: normal;
+		font-style: italic;
+		font-size: smaller;
+	}
+}
