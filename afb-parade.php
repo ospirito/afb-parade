@@ -22,6 +22,9 @@
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function aosp_afb_parade_block_init() {
-	register_block_type( __DIR__ . '/build' );
+	$blocksToRegister = ["leaderBio"];
+	foreach( $blocksToRegister as $dir){
+		register_block_type( __DIR__ . '/build/'.$dir );
+	}
 }
 add_action( 'init', 'aosp_afb_parade_block_init' );
