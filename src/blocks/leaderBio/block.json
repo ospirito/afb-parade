@@ -20,8 +20,7 @@
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
-			"attribute": "src",
-			"default":"//atlantafreedombands.com/wp-content/uploads/2023/05/WhatWeStandFor-768x760_1.png"
+			"attribute": "src"
 		},
 		"headshotId":{
 			"type":"number",
