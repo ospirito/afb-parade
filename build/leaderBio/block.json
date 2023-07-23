@@ -46,7 +46,8 @@
       "enum": [
         "large",
         "small"
-      ]
+      ],
+      "default": "small"
     }
   }
 }

@@ -11,11 +11,8 @@ import { __ } from "@wordpress/i18n";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import {
-	useBlockProps,
-	InspectorControls,
-} from "@wordpress/block-editor";
-import { PanelBody } from "@wordpress/components"
+import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
+import { PanelBody, RadioControl } from "@wordpress/components";
 import TextInput from "../../components/inspectorControl/TextInput";
 import ImageSelector from "../../components/inspectorControl/ImageSelector";
 /**
@@ -47,8 +44,17 @@ export default function Edit({ attributes, setAttributes }) {
 						mediaIdAtt="headshotId"
 						attGetSet={getSet}
 					/>
+					<RadioControl
+						label="Display Size"
+						selected={attributes.size}
+						options={[
+							{ label: "Small", value: "small" },
+							{ label: "Large", value: "large" },
+						]}
+						onChange={(newVal) => setAttributes({size:newVal})}
+					/>
 				</PanelBody>
-				<PanelBody title="Details" initialOpen = { false }>
+				<PanelBody title="Details" initialOpen={false}>
 					<TextInput
 						label="Name"
 						attribute="name"
@@ -76,7 +82,10 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 			<div className="afb-profile">
-				<img src={attributes.headshotURL} />
+				<img
+					src={attributes.headshotURL}
+					className={"headshot-img " + attributes.size}
+				/>
 				<div className="name">
 					{attributes.name}
 					<span className="pronouns"> {attributes.pronouns}</span>

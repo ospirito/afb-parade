@@ -43,7 +43,8 @@
 			"default":"President@AtlantaFreedomBands.com"
 		},
 		"size": { 
-			"enum": ["large", "small"]
+			"enum": ["large", "small"],
+			"default":"small"
 		}
 	}
 }

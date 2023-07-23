@@ -72,6 +72,19 @@ function Edit({
     mediaURLAtt: "headshotURL",
     mediaIdAtt: "headshotId",
     attGetSet: getSet
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    label: "Display Size",
+    selected: attributes.size,
+    options: [{
+      label: "Small",
+      value: "small"
+    }, {
+      label: "Large",
+      value: "large"
+    }],
+    onChange: newVal => setAttributes({
+      size: newVal
+    })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: "Details",
     initialOpen: false
@@ -98,7 +111,8 @@ function Edit({
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "afb-profile"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: attributes.headshotURL
+    src: attributes.headshotURL,
+    className: "headshot-img " + attributes.size
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "name"
   }, attributes.name, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -205,7 +219,8 @@ function save({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "afb-profile"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: attributes.headshotURL
+    src: attributes.headshotURL,
+    className: "headshot-img " + attributes.size
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "name"
   }, attributes.name, attributes.pronouns && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -213,6 +228,7 @@ function save({
   }, " ", attributes.pronouns)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "title"
   }, attributes.title), attributes.email && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "email " + attributes.size,
     href: "mailto:" + attributes.email,
     target: "_blank",
     rel: "noopener"
@@ -414,7 +430,7 @@ module.exports = window["wp"]["i18n"];
   \*****************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade","version":"0.0.1","title":"Leader Bio Block","category":"widgets","icon":"nametag","description":"A block that is used to display a headshot along with name, title, and email of AFB members.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"headshotURL":{"type":"string","source":"attribute","selector":"img","attribute":"src"},"headshotId":{"type":"number","default":0},"name":{"type":"string","default":"Buz Carr"},"pronouns":{"type":"string","default":"He/Him"},"title":{"type":"string","default":"President"},"email":{"type":"string","default":"President@AtlantaFreedomBands.com"},"size":{"enum":["large","small"]}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade","version":"0.0.1","title":"Leader Bio Block","category":"widgets","icon":"nametag","description":"A block that is used to display a headshot along with name, title, and email of AFB members.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"headshotURL":{"type":"string","source":"attribute","selector":"img","attribute":"src"},"headshotId":{"type":"number","default":0},"name":{"type":"string","default":"Buz Carr"},"pronouns":{"type":"string","default":"He/Him"},"title":{"type":"string","default":"President"},"email":{"type":"string","default":"President@AtlantaFreedomBands.com"},"size":{"enum":["large","small"],"default":"small"}}}');
 
 /***/ })
 

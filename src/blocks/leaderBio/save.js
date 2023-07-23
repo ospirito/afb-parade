@@ -22,13 +22,14 @@ export default function save({ attributes }) {
 			<div className="afb-profile">
 				<img
 					src={attributes.headshotURL}
+					className={"headshot-img " + attributes.size}
 				/>
 				<div className="name">
 					{attributes.name}
 					{attributes.pronouns && <span className="pronouns"> {attributes.pronouns}</span>}
 				</div>
 				<div className="title">{attributes.title}</div>
-				{attributes.email && <a href= {"mailto:"+attributes.email} target="_blank" rel="noopener">{attributes.email}</a>}
+				{attributes.email && <a className={"email "+attributes.size} href= {"mailto:"+attributes.email} target="_blank" rel="noopener">{attributes.email}</a>}
 			</div>
 		</div>
 	);
