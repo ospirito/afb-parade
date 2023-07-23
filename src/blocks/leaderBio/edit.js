@@ -12,8 +12,7 @@ import { __ } from "@wordpress/i18n";
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
-import { TextControl } from "@wordpress/components";
-
+import TextInput from "../../components/inspectorControl/TextInput";
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -31,40 +30,41 @@ import "./editor.scss";
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
+	const getSet = [attributes, setAttributes]
 	const blockProps = useBlockProps();
 	return (
 		<div {...blockProps}>
 			<InspectorControls>
 				<div>
-					<TextControl
+					<TextInput 
 						label="Relative Image URL"
-						value={attributes.headshotURL}
-						onChange={(val) => setAttributes({ headshotURL: val })}
+						attribute = "headshotURL"
+						attGetSet = {getSet}
 						placeholder="/wp-content/uploads/2023/05/WhatWeStandFor-768x760_1.png"
 					/>
-					<TextControl
+					<TextInput 
 						label="Name"
-						value={attributes.name}
-						onChange={(val) => setAttributes({ name: val })}
-						placeholder="e.g. Oliver Spirito"
+						attribute = "name"
+						attGetSet = {getSet}
+						placeholder="e.g. Buz Carr"
 					/>
-					<TextControl
+					<TextInput 
 						label="Pronouns"
-						value={attributes.pronouns}
-						onChange={(val) => setAttributes({ pronouns: val })}
+						attribute = "pronouns"
+						attGetSet = {getSet}
 						placeholder="e.g. He/Him"
 					/>
-					<TextControl
+					<TextInput 
 						label="Title"
-						value={attributes.title}
-						onChange={(val) => setAttributes({ title: val })}
+						attribute = "title"
+						attGetSet = {getSet}
 						placeholder="e.g. Marching Band Representative"
 					/>
-					<TextControl
+					<TextInput 
 						label="Email"
-						value={attributes.email}
-						onChange={(val) => setAttributes({ email: val })}
-						placeholder="mgrep@AtlantaFreedomBands.com"
+						attribute = "email"
+						attGetSet = {getSet}
+						placeholder="e.g. President@AtlantaFreedomBands.com"
 					/>
 				</div>
 			</InspectorControls>

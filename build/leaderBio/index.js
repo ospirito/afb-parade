@@ -18,8 +18,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/inspectorControl/TextInput */ "./src/components/inspectorControl/TextInput.jsx");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/leaderBio/editor.scss");
 
 /**
@@ -35,7 +34,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-
 
 
 /**
@@ -58,44 +56,35 @@ function Edit({
   attributes,
   setAttributes
 }) {
+  const getSet = [attributes, setAttributes];
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Relative Image URL",
-    value: attributes.headshotURL,
-    onChange: val => setAttributes({
-      headshotURL: val
-    }),
+    attribute: "headshotURL",
+    attGetSet: getSet,
     placeholder: "/wp-content/uploads/2023/05/WhatWeStandFor-768x760_1.png"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Name",
-    value: attributes.name,
-    onChange: val => setAttributes({
-      name: val
-    }),
-    placeholder: "e.g. Oliver Spirito"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    attribute: "name",
+    attGetSet: getSet,
+    placeholder: "e.g. Buz Carr"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Pronouns",
-    value: attributes.pronouns,
-    onChange: val => setAttributes({
-      pronouns: val
-    }),
+    attribute: "pronouns",
+    attGetSet: getSet,
     placeholder: "e.g. He/Him"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Title",
-    value: attributes.title,
-    onChange: val => setAttributes({
-      title: val
-    }),
+    attribute: "title",
+    attGetSet: getSet,
     placeholder: "e.g. Marching Band Representative"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Email",
-    value: attributes.email,
-    onChange: val => setAttributes({
-      email: val
-    }),
-    placeholder: "mgrep@AtlantaFreedomBands.com"
+    attribute: "email",
+    attGetSet: getSet,
+    placeholder: "e.g. President@AtlantaFreedomBands.com"
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "afb-profile"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
@@ -222,6 +211,47 @@ function save({
 
 /***/ }),
 
+/***/ "./src/components/inspectorControl/TextInput.jsx":
+/*!*******************************************************!*\
+  !*** ./src/components/inspectorControl/TextInput.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const TextInput = ({
+  label,
+  attribute,
+  attGetSet,
+  placeholder
+}) => {
+  console.log("shit coming in!");
+  console.log(label, attribute, attGetSet, placeholder);
+  const [attGetter, attSetter] = attGetSet;
+  const updateAttributeValue = newValue => {
+    let update = {};
+    update[attribute] = newValue;
+    attSetter(update);
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+    label: label,
+    value: attGetter[attribute],
+    onChange: updateAttributeValue,
+    placeholder: placeholder
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TextInput);
+
+/***/ }),
+
 /***/ "./src/blocks/leaderBio/editor.scss":
 /*!******************************************!*\
   !*** ./src/blocks/leaderBio/editor.scss ***!
@@ -302,7 +332,7 @@ module.exports = window["wp"]["i18n"];
   \*****************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade","version":"0.0.1","title":"Leader Bio Block","category":"widgets","icon":"nametag","description":"Headshot and details for board members","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"headshotURL":{"type":"string","source":"attribute","selector":"img","attribute":"src","default":"//atlantafreedombands.com/wp-content/uploads/2023/05/WhatWeStandFor-768x760_1.png"},"headshotId":{"type":"number","default":0},"name":{"type":"string","default":"Buz Carr"},"pronouns":{"type":"string","default":"He/Him"},"title":{"type":"string","default":"President"},"email":{"type":"string","default":"President@AtlantaFreedomBands.com"},"size":{"enum":["large","small"]}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade","version":"0.0.1","title":"Leader Bio Block","category":"widgets","icon":"nametag","description":"A block that is used to display a headshot along with name, title, and email of AFB members.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"headshotURL":{"type":"string","source":"attribute","selector":"img","attribute":"src","default":"//atlantafreedombands.com/wp-content/uploads/2023/05/WhatWeStandFor-768x760_1.png"},"headshotId":{"type":"number","default":0},"name":{"type":"string","default":"Buz Carr"},"pronouns":{"type":"string","default":"He/Him"},"title":{"type":"string","default":"President"},"email":{"type":"string","default":"President@AtlantaFreedomBands.com"},"size":{"enum":["large","small"]}}}');
 
 /***/ })
 

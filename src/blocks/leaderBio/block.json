@@ -6,7 +6,7 @@
 	"title": "Leader Bio Block",
 	"category": "widgets",
 	"icon": "nametag",
-	"description": "Headshot and details for board members",
+	"description": "A block that is used to display a headshot along with name, title, and email of AFB members.",
 	"supports": {
 		"html": false
 	},
