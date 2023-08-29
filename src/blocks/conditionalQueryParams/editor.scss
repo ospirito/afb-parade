@@ -1,0 +1,21 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-aosp-afb-parade {
+	border: 1px dotted #f00;
+	
+}
+
+.parade-query-editor{
+	border: 1px dashed gray;
+	.helperText{
+		background-color: lightyellow;
+		border: 1px solid black;
+		font-style:italic;
+	}
+}
+
+

@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "aosp/afb-parade-query-param",
+	"version": "0.0.1",
+	"title": "Conditional Query Param Display",
+	"category": "design",
+	"icon": "star half",
+	"description": "A wrapper block that will show or hide conditionally, based on the presence of a query param.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "afb-parade",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"attributes": {
+		"queryParam":{
+			"type":"string",
+			"default":"myQueryParam"
+		},
+		"exactValue":{
+			"type":"string",
+			"default":"band"
+		}
+	}
+}

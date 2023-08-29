@@ -21,10 +21,18 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
+require __DIR__.'/src/blocks/conditionalQueryParams/conditionalShowHide.php';
+
 function aosp_afb_parade_block_init() {
-	$blocksToRegister = ["leaderBio"];
-	foreach( $blocksToRegister as $dir){
+	$staticBlocksToRegister = ["leaderBio"];
+	$dynamicBlocksToRegister = ["conditionalQueryParams" => 'conditional_query_param_callback'];
+
+	foreach( $staticBlocksToRegister as $dir){
 		register_block_type( __DIR__ . '/build/'.$dir );
+	}
+
+	foreach( $dynamicBlocksToRegister as $dir => $callback){
+		register_block_type( __DIR__ . '/build/'.$dir, array("render_callback" => $callback));
 	}
 }
 add_action( 'init', 'aosp_afb_parade_block_init' );

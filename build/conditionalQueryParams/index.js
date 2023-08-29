@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/blocks/leaderBio/edit.js":
-/*!**************************************!*\
-  !*** ./src/blocks/leaderBio/edit.js ***!
-  \**************************************/
+/***/ "./src/blocks/conditionalQueryParams/edit.js":
+/*!***************************************************!*\
+  !*** ./src/blocks/conditionalQueryParams/edit.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -21,8 +21,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/inspectorControl/TextInput */ "./src/components/inspectorControl/TextInput.jsx");
-/* harmony import */ var _components_inspectorControl_ImageSelector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/inspectorControl/ImageSelector */ "./src/components/inspectorControl/ImageSelector.jsx");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/leaderBio/editor.scss");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/conditionalQueryParams/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -62,86 +63,65 @@ function Edit({
   setAttributes
 }) {
   const getSet = [attributes, setAttributes];
+  const [showExactValueOption, setShowExactValueOption] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(false);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Headshot"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_ImageSelector__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: "Headshot",
-    mediaURLAtt: "headshotURL",
-    mediaIdAtt: "headshotId",
-    attGetSet: getSet
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
-    label: "Display Size",
-    selected: attributes.size,
-    options: [{
-      label: "Small",
-      value: "small"
-    }, {
-      label: "Large",
-      value: "large"
-    }],
-    onChange: newVal => setAttributes({
-      size: newVal
-    })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Details",
-    initialOpen: false
+    title: "Visibilty Conditions"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    label: "Name",
-    attribute: "name",
+    label: "Query Param Key",
+    attribute: "queryParam",
     attGetSet: getSet,
-    placeholder: "e.g. Buz Carr"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    label: "Pronouns",
-    attribute: "pronouns",
+    placeholder: "showBlock"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    label: "Require a specific query param value to show this block?",
+    selected: showExactValueOption,
+    options: [{
+      label: "No - only detect the presence of a query param.",
+      value: false
+    }, {
+      label: "Yes - require an exact value.",
+      value: true
+    }],
+    onChange: newVal => setShowExactValueOption(newVal)
+  }), showExactValueOption && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    label: "Required value in query param",
+    attribute: "exactValue",
     attGetSet: getSet,
-    placeholder: "e.g. He/Him"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    label: "Title",
-    attribute: "title",
-    attGetSet: getSet,
-    placeholder: "e.g. Marching Band Representative"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    label: "Email",
-    attribute: "email",
-    attGetSet: getSet,
-    placeholder: "e.g. President@AtlantaFreedomBands.com"
+    placeholder: "showBlock"
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "afb-profile"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: attributes.headshotURL,
-    className: "headshot-img " + attributes.size
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "name"
-  }, attributes.name, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "pronouns"
-  }, " ", attributes.pronouns)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "title"
-  }, attributes.title), attributes.email && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, attributes.email)));
+    className: "parade-query-editor"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "helperText"
+  }, "This block will only be shown when ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, attributes.queryParam), " is detected as a query parameter."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, null)));
 }
 
 /***/ }),
 
-/***/ "./src/blocks/leaderBio/index.js":
-/*!***************************************!*\
-  !*** ./src/blocks/leaderBio/index.js ***!
-  \***************************************/
+/***/ "./src/blocks/conditionalQueryParams/index.js":
+/*!****************************************************!*\
+  !*** ./src/blocks/conditionalQueryParams/index.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/leaderBio/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/leaderBio/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/leaderBio/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/leaderBio/block.json");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/conditionalQueryParams/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./edit */ "./src/blocks/conditionalQueryParams/edit.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block.json */ "./src/blocks/conditionalQueryParams/block.json");
+
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
+
 
 
 /**
@@ -159,143 +139,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Every block starts by registering a new block type definition.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_5__.name, {
   /**
    * @see ./edit.js
    */
-  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
-  /**
-   * @see ./save.js
-   */
-  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+  edit: _edit__WEBPACK_IMPORTED_MODULE_4__["default"],
+  save: props => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks.Content, null)
 });
-
-/***/ }),
-
-/***/ "./src/blocks/leaderBio/save.js":
-/*!**************************************!*\
-  !*** ./src/blocks/leaderBio/save.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ save)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-
-
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
- *
- * @return {WPElement} Element to render.
- */
-function save({
-  attributes
-}) {
-  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "afb-profile"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: attributes.headshotURL,
-    className: "headshot-img " + attributes.size
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "name"
-  }, attributes.name, attributes.pronouns && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "pronouns"
-  }, " ", attributes.pronouns)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "title"
-  }, attributes.title), attributes.email && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    className: "email " + attributes.size,
-    href: "mailto:" + attributes.email,
-    target: "_blank",
-    rel: "noopener"
-  }, attributes.email)));
-}
-
-/***/ }),
-
-/***/ "./src/components/inspectorControl/ImageSelector.jsx":
-/*!***********************************************************!*\
-  !*** ./src/components/inspectorControl/ImageSelector.jsx ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-const ImageSelector = ({
-  label,
-  mediaURLAtt,
-  mediaIdAtt,
-  attGetSet
-}) => {
-  const [getAttr, setAttr] = attGetSet;
-  const mediaOnSelect = selectedItem => {
-    let update = {};
-    update[mediaURLAtt] = selectedItem.url;
-    update[mediaIdAtt] = selectedItem.div;
-    setAttr(update);
-  };
-  const mediaOnAbandon = () => {
-    let update = {};
-    update[mediaURLAtt] = "";
-    update[mediaIdAtt] = 0;
-    setAttr(update);
-  };
-  const mediaUploadRender = ({
-    open
-  }) => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-      onClick: open
-    }, "Select ", label, " Image");
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "afb-editor img-upload"
-  }, getAttr[mediaURLAtt] && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    className: "img-preview",
-    src: getAttr[mediaURLAtt]
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
-    label: label,
-    onSelect: mediaOnSelect,
-    value: getAttr[mediaIdAtt],
-    allowedTypes: ["image"],
-    render: mediaUploadRender
-  })));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageSelector);
 
 /***/ }),
 
@@ -340,10 +195,10 @@ const TextInput = ({
 
 /***/ }),
 
-/***/ "./src/blocks/leaderBio/editor.scss":
-/*!******************************************!*\
-  !*** ./src/blocks/leaderBio/editor.scss ***!
-  \******************************************/
+/***/ "./src/blocks/conditionalQueryParams/editor.scss":
+/*!*******************************************************!*\
+  !*** ./src/blocks/conditionalQueryParams/editor.scss ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -352,10 +207,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/blocks/leaderBio/style.scss":
-/*!*****************************************!*\
-  !*** ./src/blocks/leaderBio/style.scss ***!
-  \*****************************************/
+/***/ "./src/blocks/conditionalQueryParams/style.scss":
+/*!******************************************************!*\
+  !*** ./src/blocks/conditionalQueryParams/style.scss ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -424,13 +279,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./src/blocks/leaderBio/block.json":
-/*!*****************************************!*\
-  !*** ./src/blocks/leaderBio/block.json ***!
-  \*****************************************/
+/***/ "./src/blocks/conditionalQueryParams/block.json":
+/*!******************************************************!*\
+  !*** ./src/blocks/conditionalQueryParams/block.json ***!
+  \******************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade-bio-block","version":"0.0.1","title":"Leader Bio Block","category":"widgets","icon":"nametag","description":"A block that is used to display a headshot along with name, title, and email of AFB members.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"headshotURL":{"type":"string","source":"attribute","selector":"img","attribute":"src"},"headshotId":{"type":"number","default":0},"name":{"type":"string","default":"Buz Carr"},"pronouns":{"type":"string","default":"He/Him"},"title":{"type":"string","default":"President"},"email":{"type":"string","default":"President@AtlantaFreedomBands.com"},"size":{"enum":["large","small"],"default":"small"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade-query-param","version":"0.0.1","title":"Conditional Query Param Display","category":"design","icon":"star half","description":"A wrapper block that will show or hide conditionally, based on the presence of a query param.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"queryParam":{"type":"string","default":"myQueryParam"},"exactValue":{"type":"string","default":"band"}}}');
 
 /***/ })
 
@@ -546,8 +401,8 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"leaderBio/index": 0,
-/******/ 			"leaderBio/style-index": 0
+/******/ 			"conditionalQueryParams/index": 0,
+/******/ 			"conditionalQueryParams/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -599,7 +454,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["leaderBio/style-index"], () => (__webpack_require__("./src/blocks/leaderBio/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["conditionalQueryParams/style-index"], () => (__webpack_require__("./src/blocks/conditionalQueryParams/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
