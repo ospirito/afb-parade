@@ -1,6 +1,6 @@
 {
 	"name": "afb-parade",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "AFB Custom Plugin",
 	"author": "Oliver Spirito",
 	"license": "GPL-2.0-or-later",
@@ -12,7 +12,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip --webpack-src-dir=src/blocks --output-path=build/ --webpack-copy-php",
-		"start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=build/",
+		"start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=build/ --webpack-copy-php",
 		"build": "wp-scripts build --webpack-src-dir=src/blocks --output-path=build/ --webpack-copy-php",
 		"start:leaderBio": "wp-scripts start --webpack-src-dir=src/blocks/leaderBio --output-path=/build/leaderBio",
 		"build:static": "wp-scripts build --webpack-src-dir=src/blocks/leaderBio --output-path=/build/leaderBio",
