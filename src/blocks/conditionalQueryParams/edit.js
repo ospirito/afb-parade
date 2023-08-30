@@ -14,7 +14,7 @@ import { __ } from "@wordpress/i18n";
 import { useBlockProps, InspectorControls, InnerBlocks, } from "@wordpress/block-editor";
 import { PanelBody, RadioControl } from "@wordpress/components";
 import TextInput from "../../components/inspectorControl/TextInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -33,37 +33,60 @@ import "./editor.scss";
  */
 export default function Edit({ attributes, setAttributes }) {
 	const getSet = [attributes, setAttributes];
-	const [showExactValueOption, setShowExactValueOption] = useState(false)
 	const blockProps = useBlockProps();
+	const [queryParamExample, updateExample] = useState(<b></b>)
+
+	useEffect(() => {
+		switch(attributes.matchType){
+			case "paramOnly":
+				updateExample(<span><b>{attributes.queryParam}</b> is</span>)
+				break;
+			case "paramAndValue":
+				updateExample(<span><b>{attributes.queryParam}={attributes.exactValue}</b> is</span>)
+				break;
+			case "noParams":
+				updateExample(<span><b>no query params</b> are</span>)
+			break;
+		}
+	}, [attributes])
 	return (
 		<div {...blockProps}>
 			<InspectorControls>
+				<PanelBody title="Instructions" initialOpen = {false}>
+					<p>This is a conditional block that will only render when certain Query Parameters are added to the URL when the page is loaded.</p>
+					<p>Query Params are appended to the end of the URL with a question mark, and then joined with an ampersand.</p>
+					<p>The end of your URL might look like <code>url.com?param1=true&param2=false</code></p>
+					<p>You can use these to control the content on the page using this type of block.</p>
+					<p><b>Note: </b>The word <code>preview</code> should not be used in Query Params. This word is reserved by Wordpress.</p>
+				</PanelBody>
 				<PanelBody title="Visibilty Conditions">
-					<TextInput
+				<RadioControl
+						label="When should this block be shown?"
+						selected={attributes.matchType}
+						options={[
+							{ label: "When a certain query param is present.", value: "paramOnly" },
+							{ label: "When a certain query param has an exact value.", value: "paramAndValue" },
+							{ label: "When no query params are present.", value: "noParams" },
+						]}
+						onChange={(newVal) => setAttributes({"matchType":newVal})}
+					/>
+					{attributes.matchType != "noParams" && <TextInput
 					label="Query Param Key"
 					attribute="queryParam"
 					attGetSet={getSet}
-					placeholder="showBlock"
-					/>
-					<RadioControl
-						label="Require a specific query param value to show this block?"
-						selected={showExactValueOption}
-						options={[
-							{ label: "No - only detect the presence of a query param.", value: false },
-							{ label: "Yes - require an exact value.", value: true },
-						]}
-						onChange={(newVal) => setShowExactValueOption(newVal)}
-					/>
-					{showExactValueOption&&<TextInput
+					placeholder="myQueryParam"
+					/>}
+					
+					{attributes.matchType == "paramAndValue" && <TextInput
 					label="Required value in query param"
 					attribute="exactValue"
 					attGetSet={getSet}
-					placeholder="showBlock"
+					placeholder="abc"
 					/>}
 				</PanelBody>
 			</InspectorControls>
 			<div className="parade-query-editor">
-				<div className="helperText">This block will only be shown when <b>{attributes.queryParam}</b> is detected as a query parameter.</div>
+				<div className="helperText">This block will only be shown when {queryParamExample} detected.</div>
 				<InnerBlocks />
 			</div>
 		</div>

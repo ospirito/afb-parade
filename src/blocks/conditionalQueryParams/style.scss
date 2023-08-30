@@ -5,50 +5,8 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-aosp-afb-parade {
-	.afb-profile{
-		width: 95%;
-		background-color: transparent;
-		text-align: center;
-
-		img.headshot-img{
-			&.large{
-				width: 19em !important;
-				height: 19em !important;
-			}
-			&.small{
-				width: 14em !important;
-				height: 14em !important;
-			}
-			object-fit: cover;
-			margin: auto;
-		}
-		
-	}
-	
-	
-	.name{
-		font-size: larger;
-		font-weight: bolder;
-	}
-	.pronouns{
-		font-weight: normal;
-		font-style: italic;
-		font-size: smaller;
-	}
-	.email{
-		color: black;
-		font-weight: lighter;
-		text-decoration: none;
-		&.large{
-			font-size: 1em;
-		}
-		&.small{
-			font-size: 0.75em;
-		}
-		&:hover{
-			font-weight: bolder;
-			color: #F36523;
-		}
-	}
+.parade-warn{
+	background-color: lightyellow;
+	border: 1px dotted black;
+	padding: 5px;
 }

@@ -7,47 +7,10 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-aosp-afb-parade .afb-profile {
-  width: 95%;
-  background-color: transparent;
-  text-align: center;
-}
-.wp-block-aosp-afb-parade .afb-profile img.headshot-img {
-  -o-object-fit: cover;
-     object-fit: cover;
-  margin: auto;
-}
-.wp-block-aosp-afb-parade .afb-profile img.headshot-img.large {
-  width: 19em !important;
-  height: 19em !important;
-}
-.wp-block-aosp-afb-parade .afb-profile img.headshot-img.small {
-  width: 14em !important;
-  height: 14em !important;
-}
-.wp-block-aosp-afb-parade .name {
-  font-size: larger;
-  font-weight: bolder;
-}
-.wp-block-aosp-afb-parade .pronouns {
-  font-weight: normal;
-  font-style: italic;
-  font-size: smaller;
-}
-.wp-block-aosp-afb-parade .email {
-  color: black;
-  font-weight: lighter;
-  text-decoration: none;
-}
-.wp-block-aosp-afb-parade .email.large {
-  font-size: 1em;
-}
-.wp-block-aosp-afb-parade .email.small {
-  font-size: 0.75em;
-}
-.wp-block-aosp-afb-parade .email:hover {
-  font-weight: bolder;
-  color: #F36523;
+.parade-warn {
+  background-color: lightyellow;
+  border: 1px dotted black;
+  padding: 5px;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

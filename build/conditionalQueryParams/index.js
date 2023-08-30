@@ -63,38 +63,59 @@ function Edit({
   setAttributes
 }) {
   const getSet = [attributes, setAttributes];
-  const [showExactValueOption, setShowExactValueOption] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(false);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  const [queryParamExample, updateExample] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null));
+  (0,react__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    switch (attributes.matchType) {
+      case "paramOnly":
+        updateExample((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, attributes.queryParam), " is"));
+        break;
+      case "paramAndValue":
+        updateExample((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, attributes.queryParam, "=", attributes.exactValue), " is"));
+        break;
+      case "noParams":
+        updateExample((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "no query params"), " are"));
+        break;
+    }
+  }, [attributes]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "Instructions",
+    initialOpen: false
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "This is a conditional block that will only render when certain Query Parameters are added to the URL when the page is loaded."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Query Params are appended to the end of the URL with a question mark, and then joined with an ampersand."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "The end of your URL might look like ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("code", null, "url.com?param1=true&param2=false")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "You can use these to control the content on the page using this type of block."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "Note: "), "The word ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("code", null, "preview"), " should not be used in Query Params. This word is reserved by Wordpress.")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: "Visibilty Conditions"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    label: "When should this block be shown?",
+    selected: attributes.matchType,
+    options: [{
+      label: "When a certain query param is present.",
+      value: "paramOnly"
+    }, {
+      label: "When a certain query param has an exact value.",
+      value: "paramAndValue"
+    }, {
+      label: "When no query params are present.",
+      value: "noParams"
+    }],
+    onChange: newVal => setAttributes({
+      "matchType": newVal
+    })
+  }), attributes.matchType != "noParams" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     label: "Query Param Key",
     attribute: "queryParam",
     attGetSet: getSet,
-    placeholder: "showBlock"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
-    label: "Require a specific query param value to show this block?",
-    selected: showExactValueOption,
-    options: [{
-      label: "No - only detect the presence of a query param.",
-      value: false
-    }, {
-      label: "Yes - require an exact value.",
-      value: true
-    }],
-    onChange: newVal => setShowExactValueOption(newVal)
-  }), showExactValueOption && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    placeholder: "myQueryParam"
+  }), attributes.matchType == "paramAndValue" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_inspectorControl_TextInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     label: "Required value in query param",
     attribute: "exactValue",
     attGetSet: getSet,
-    placeholder: "showBlock"
+    placeholder: "abc"
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "parade-query-editor"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "helperText"
-  }, "This block will only be shown when ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, attributes.queryParam), " is detected as a query parameter."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, null)));
+  }, "This block will only be shown when ", queryParamExample, " detected."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, null)));
 }
 
 /***/ }),
@@ -285,7 +306,7 @@ module.exports = window["wp"]["i18n"];
   \******************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade-query-param","version":"0.0.1","title":"Conditional Query Param Display","category":"design","icon":"star half","description":"A wrapper block that will show or hide conditionally, based on the presence of a query param.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"queryParam":{"type":"string","default":"myQueryParam"},"exactValue":{"type":"string","default":"band"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"aosp/afb-parade-query-param","version":"1.0.0","title":"Conditional Query Param Display","category":"design","icon":"table-row-before","description":"A wrapper block that will show or hide conditionally, based on the presence of a query param.","supports":{"html":false},"textdomain":"afb-parade","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"queryParam":{"type":"string","default":"myQueryParam"},"exactValue":{"type":"string","default":"band"},"matchType":{"type":"string","enum":["noParams","paramOnly","paramAndValue"],"default":"paramOnly"}}}');
 
 /***/ })
 
