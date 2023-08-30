@@ -5,7 +5,7 @@
  * Description:       Custom blocks for Atlanta Freedom Bands
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           0.0.1
+ * Version:           0.0.4
  * Author:            Oliver Spirito
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,10 +21,18 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
+require __DIR__.'/build/conditionalQueryParams/conditionalShowHide.php';
+
 function aosp_afb_parade_block_init() {
-	$blocksToRegister = ["leaderBio"];
-	foreach( $blocksToRegister as $dir){
+	$staticBlocksToRegister = ["leaderBio"];
+	$dynamicBlocksToRegister = ["conditionalQueryParams" => 'conditional_query_param_callback'];
+
+	foreach( $staticBlocksToRegister as $dir){
 		register_block_type( __DIR__ . '/build/'.$dir );
+	}
+
+	foreach( $dynamicBlocksToRegister as $dir => $callback){
+		register_block_type( __DIR__ . '/build/'.$dir, array("render_callback" => $callback));
 	}
 }
 add_action( 'init', 'aosp_afb_parade_block_init' );

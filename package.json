@@ -1,7 +1,7 @@
 {
 	"name": "afb-parade",
-	"version": "0.0.1",
-	"description": "Headshot and details for board members",
+	"version": "0.0.4",
+	"description": "AFB Custom Plugin",
 	"author": "Oliver Spirito",
 	"license": "GPL-2.0-or-later",
 	"homepage": "atlantafreedombands.com",
@@ -11,11 +11,13 @@
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip --webpack-src-dir=src/blocks --output-path=build/",
-		"start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=build/",
-		"build": "wp-scripts build --webpack-src-dir=src/blocks --output-path=build/",
+		"plugin-zip": "wp-scripts plugin-zip --webpack-src-dir=src/blocks --output-path=build/ --webpack-copy-php",
+		"start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=build/ --webpack-copy-php",
+		"build": "wp-scripts build --webpack-src-dir=src/blocks --output-path=build/ --webpack-copy-php",
 		"start:leaderBio": "wp-scripts start --webpack-src-dir=src/blocks/leaderBio --output-path=/build/leaderBio",
-		"build:static": "wp-scripts build --webpack-src-dir=src/blocks/leaderBio --output-path=/build/leaderBio"
+		"build:static": "wp-scripts build --webpack-src-dir=src/blocks/leaderBio --output-path=/build/leaderBio",
+		"start:queryParams": "wp-scripts start --webpack-src-dir=src/blocks/conditionalQueryParams --output-path=/build/conditionalQueryParams",
+		"build:dynamic": "wp-scripts build --webpack-src-dir=src/blocks/conditionalQueryParams --output-path=/build/conditionalQueryParams"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^26.9.0"
