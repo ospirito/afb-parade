@@ -21,7 +21,7 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-require __DIR__.'/build/conditionalQueryParams/conditionalShowHide.php';
+require __DIR__.'/src/blocks/conditionalQueryParams/conditionalShowHide.php';
 
 function aosp_afb_parade_block_init() {
 	$staticBlocksToRegister = ["leaderBio"];
