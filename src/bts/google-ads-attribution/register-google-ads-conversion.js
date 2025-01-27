@@ -20,23 +20,12 @@
 
 		body[adKey] = value;
 	});
-
-	let value = parseFloat(params.get(searchKeys.value));
-	let transaction = params.get(searchKeys.id);
-	let eventId = params.get(searchKeys.eventId);
+	//FOR DEBUGGING ONLY
 	function gtag() {
 		window.dataLayer = [];
 		window.dataLayer.push(arguments);
 	}
-	//if (!gtag) return; //exit if gtag is not on the page
 
-	// gtag("event", "conversion", {
-	// 	send_to: searchKeys.adsId,
-	// 	value: value,
-	// 	currency: "USD",
-	// 	transaction_id: transaction,
-	// 	eventid: eventId,
-	// });
 	gtag("event", "conversion", body);
-	console.log("conversion recorded");
+	console.info("Conversion recorded", body);
 })();

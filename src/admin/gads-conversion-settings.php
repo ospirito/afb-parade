@@ -52,10 +52,6 @@ class AFBP_GoogleAdsConversions {
             'default' => Array(
                 'record_google_ads_conversions' => FALSE,
                 'param_to_watch' => 'tt_order_id',
-                'google_ads_id' => '-1',
-                'param_conversion_unique_id' => 'tt_order_id',
-                'param_conversion_value' => 'tt_order_value',
-                'param_event_id' => 'tt_event_id',
 				'body_json' => '{"send_to":"[your ad id goes here]", "currency":"USD", "id":"~tt_order_id", "#value":"~tt_order_value", "eventId":"~tt_event_id" }'
             ))
 		);
@@ -93,14 +89,6 @@ class AFBP_GoogleAdsConversions {
 			'afbp_gads_conversion_basic_config' // section
 		);
 
-		add_settings_field(
-			'google_ads_id', // id
-			'Google Ad Id', // title
-			array( $this, 'google_ads_id_callback' ), // callback
-			'google-ads-conversions-admin', // page
-			'afbp_gads_conversion_basic_config' // section
-		);
-
         //Param settings
 		add_settings_field(
 			"body_json",
@@ -108,29 +96,6 @@ class AFBP_GoogleAdsConversions {
 			array($this, 'param_conversion_body'), //callback
 			'google-ads-conversions-admin',
 			'afbp_gads_conversion_param_config'
-		);
-		add_settings_field(
-			'param_conversion_unique_id', // id
-			'Unique Id', // title
-			array( $this, 'param_conversion_unique_id_callback' ), // callback
-			'google-ads-conversions-admin', // page
-			'afbp_gads_conversion_param_config' // section
-		);
-
-		add_settings_field(
-			'param_conversion_value', // id
-			'Conversion Value', // title
-			array( $this, 'param_conversion_value_callback' ), // callback
-			'google-ads-conversions-admin', // page
-			'afbp_gads_conversion_param_config' // section
-		);
-
-		add_settings_field(
-			'param_event_id', // id
-			'Event Id', // title
-			array( $this, 'param_event_id_callback' ), // callback
-			'google-ads-conversions-admin', // page
-			'afbp_gads_conversion_param_config' // section
 		);
 	}
 
@@ -148,27 +113,6 @@ class AFBP_GoogleAdsConversions {
 			$sanitary_values['body_json'] = sanitize_text_field( $input['body_json'] );
 		}
 
-		if ( isset( $input['google_ads_id'] ) ) {
-            $value = $input['google_ads_id'];
-            if(preg_match('/[A-Z]{0,3}-[0-9]+\/[a-zA-Z0-9_]+/i', $value)){
-                $sanitary_values['google_ads_id'] = sanitize_text_field( $value );
-            }else{
-                $sanitary_values['google_ads_id'] = sanitize_text_field( "< Invalid ID Provided >" );
-            }
-		}
-
-		if ( isset( $input['param_conversion_unique_id'] ) ) {
-			$sanitary_values['param_conversion_unique_id'] = sanitize_text_field( $input['param_conversion_unique_id'] );
-		}
-
-		if ( isset( $input['param_conversion_value'] ) ) {
-			$sanitary_values['param_conversion_value'] = sanitize_text_field( $input['param_conversion_value'] );
-		}
-
-		if ( isset( $input['param_event_id'] ) ) {
-			$sanitary_values['param_event_id'] = sanitize_text_field( $input['param_event_id'] );
-		}
-
 		return $sanitary_values;
 	}
 
@@ -183,17 +127,7 @@ class AFBP_GoogleAdsConversions {
 		<?php
 	}
 
-	public function param_to_watch_callback() {
-        $value = isset( $this->google_ads_conversions_options['param_to_watch'] ) ? esc_attr( $this->google_ads_conversions_options['param_to_watch']) : '';
-        ?>
-        <div><p>Enter the name of a query parameter - the conversion logic will be run on any page that has this parameter appended to the URL.</p>
-        <p>For example, if a conversion will land you on the page <code><?php echo site_url()?>/convert?transaction_id=12345</code>, enter <code>transaction_id</code> here.</p>
-    </div>
-        <input class="regular-text" type="text" name="afbp_google_ads_conversions_option_name[param_to_watch]" id="param_to_watch" value="<?php echo $value ?>">
-        <?php
-	}
-
-    public function text_field_option($optionId){
+	public function text_field_option($optionId){
         $value = isset( $this->google_ads_conversions_options[$optionId] ) ? esc_attr( $this->google_ads_conversions_options[$optionId]) : '';
         ?>
             <input class="regular-text" type="text" name="afbp_google_ads_conversions_option_name[<?php echo $optionId ?>]" id="<?php echo $optionId ?>" value="<?php echo $value ?>">
@@ -201,9 +135,19 @@ class AFBP_GoogleAdsConversions {
 
     }
 
+	public function param_to_watch_callback() {
+        ?>
+        <div><p>Enter the name of a query parameter - the conversion logic will be run on any page that has this parameter appended to the URL.</p>
+        <p>For example, if a conversion will land you on the page <code><?php echo site_url()?>/convert?transaction_id=12345</code>, enter <code>transaction_id</code> here.</p>
+    	</div>
+        <?php
+		$this->text_field_option('param_to_watch');
+	}
+
+
 	public function param_conversion_body(){
 		$value = isset( $this->google_ads_conversions_options["body_json"] ) ? esc_attr( $this->google_ads_conversions_options["body_json"]) : '';
-		$value = str_replace(",", ",\n",$value)
+		$value = str_replace(",", ",\n",$value); //purely for formatting
 		?>
 		<div>
 			<p>Tell AFB Parade what to send in the Google Ads conversion body.</p>
@@ -215,39 +159,6 @@ class AFBP_GoogleAdsConversions {
 			<i>All values will be sent as strings. If you need the value sent as a number, prefix the JSON key with a <code>#</code>. For example, <code>"#value":"~tt_123"</code>
 				<textarea class="large-text" style="height:15em; resize:both;" name="afbp_google_ads_conversions_option_name[body_json]" id="body_json"><?php echo $value ?></textarea>
 		<?php
-	}
-
-	public function google_ads_id_callback() {
-        ?>
-            <div>
-                <p>
-                    Enter your Google Ads Id here. In the gTag conversion snippet, this the <code>send_to</code> value.
-                </p>
-    </div>
-        <?php
-        $this->text_field_option("google_ads_id");
-	}
-
-
-	public function param_conversion_unique_id_callback() {
-        ?>
-        <p>Enter the name of the query param that will have a unique id. This helps prevent double-counting conversions.</p>
-        <?php
-        $this->text_field_option("param_conversion_unique_id");
-	}
-
-	public function param_conversion_value_callback() {
-		?>
-        <p>Enter the name of the query param that will have the value of the conversion.</p>
-        <?php
-        $this->text_field_option("param_conversion_value");
-	}
-
-	public function param_event_id_callback() {
-		?>
-        <p>This is a custom field for AFB conversions - it helps us map to the event that the tickets were for.</p>
-        <?php
-        $this->text_field_option("param_event_id");
 	}
 
 }
