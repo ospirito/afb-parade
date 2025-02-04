@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__."/gads-conversion-settings.php");
+require_once(__DIR__."/meta-ads-conversion-settings.php");
 
 class AFBP_Settings{
     public function __construct() {
@@ -40,4 +41,5 @@ class AFBP_Settings{
 if ( is_admin() )
 	$afbp_settings = new AFBP_Settings();
     $google_ads_conversions = new AFBP_GoogleAdsConversions();
+	$meta_ads_conversions = new AFBP_MetaAdsConversions();
 ?>
