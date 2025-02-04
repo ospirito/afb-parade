@@ -24,7 +24,8 @@
 require __DIR__.'/build/blocks/conditionalQueryParams/conditionalShowHide.php';
 require __DIR__.'/build/admin/gads-conversion-settings.php';
 require __DIR__.'/build/admin/settings-menu.php';
-require __DIR__.'/build/bts/google-ads-attribution/init_gads_conversion.php';
+require __DIR__.'/build/bts/google-ads-conversion/init_gads_conversion.php';
+require __DIR__.'/build/bts/meta-ads-conversion/init_meta_ads_conversion.php';
 
 function aosp_afb_parade_block_init() {
 	$staticBlocksToRegister = ["leaderBio"];
@@ -46,5 +47,6 @@ add_action( 'init', 'aosp_afb_parade_block_init' );
 // }
 // add_action('admin_menu', 'add_settings_page');
 
-add_action('wp_enqueue_scripts', 'conditional_enqueue');
+add_action('wp_enqueue_scripts', 'conditional_enqueue_google_ads');
+add_action('wp_enqueue_scripts', 'conditional_enqueue_meta_ads');
 

@@ -1,5 +1,5 @@
 <?php
-function conditional_enqueue(){
+function conditional_enqueue_google_ads(){
     $options = get_option( 'afbp_google_ads_conversions_option_name' );
 
     if(! isset($options['record_google_ads_conversions'])){ //make sure admin has activated conversions
