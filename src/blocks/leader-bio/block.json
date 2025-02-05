@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "aosp/afb-parade-bio-block",
+	"name": "afb-parade/afb-parade-bio-block",
 	"version": "0.0.1",
 	"title": "Leader Bio Block",
 	"category": "widgets",
@@ -22,13 +22,13 @@
 			"selector": "img",
 			"attribute": "src"
 		},
-		"headshotId":{
-			"type":"number",
+		"headshotId": {
+			"type": "number",
 			"default": 0
 		},
 		"name": {
 			"type": "string",
-			"default":"Buz Carr"
+			"default": "Buz Carr"
 		},
 		"pronouns": {
 			"type": "string",
@@ -36,15 +36,15 @@
 		},
 		"title": {
 			"type": "string",
-			"default":"President"
+			"default": "President"
 		},
 		"email": {
 			"type": "string",
-			"default":"President@AtlantaFreedomBands.com"
+			"default": "President@AtlantaFreedomBands.com"
 		},
-		"size": { 
+		"size": {
 			"enum": ["large", "small"],
-			"default":"small"
+			"default": "small"
 		}
 	}
 }

@@ -6,7 +6,11 @@ class AFBP_Settings{
     public function __construct() {
 		add_action( 'admin_menu', array( $this, 'afbp_settings_add_plugin_page' ) );
 		//add_action( 'admin_init', array( $this, 'google_ads_conversions_page_init' ) );
-        wp_enqueue_style('afbp-admin',plugin_dir_url( "./afb-parade/build/admin" )."admin/style.css");
+		add_action('wp_enqueue_style', array( $this,'enqueue_styles') );
+	}
+
+	private function enqueue_styles(){
+		wp_enqueue_style('afbp-admin',plugin_dir_url( "./afb-parade/build/admin" )."admin/style.css");
 	}
 
 	public function afbp_settings_add_plugin_page() {

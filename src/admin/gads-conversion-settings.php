@@ -20,8 +20,7 @@ class AFBP_GoogleAdsConversions {
 			'manage_options', // capability
 			'afbp-gads-conversions', // menu_slug
 			array( $this, 'google_ads_conversions_create_admin_page' ), // function
-			'dashicons-megaphone', // icon_url
-			80 // position
+			10 // position
 		);
 	}
 

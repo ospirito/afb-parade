@@ -1,5 +1,5 @@
 <?php
-function conditional_enqueue(){
+function conditional_enqueue_meta_ads(){
     $options = get_option( 'afbp_meta_ads_conversions_option_name' );
     //echo $options;
     if(! isset($options['record_meta_ads_conversions'])){ //make sure admin has activated conversions

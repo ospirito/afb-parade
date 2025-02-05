@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "aosp/afb-parade-query-param",
+	"name": "afb-parade/afb-parade-query-param",
 	"version": "1.0.0",
 	"title": "Conditional Query Param Display",
 	"category": "design",
@@ -16,18 +16,18 @@
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js",
 	"attributes": {
-		"queryParam":{
-			"type":"string",
-			"default":"myQueryParam"
+		"queryParam": {
+			"type": "string",
+			"default": "myQueryParam"
 		},
-		"exactValue":{
-			"type":"string",
-			"default":"band"
+		"exactValue": {
+			"type": "string",
+			"default": "band"
 		},
-		"matchType":{
-			"type":"string",
-			"enum":["noParams","paramOnly","paramAndValue"],
-			"default":"paramOnly"
+		"matchType": {
+			"type": "string",
+			"enum": ["noParams", "paramOnly", "paramAndValue"],
+			"default": "paramOnly"
 		}
 	}
 }

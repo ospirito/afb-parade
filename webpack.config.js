@@ -5,10 +5,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
 	...defaultConfig,
-	entry: {
-		...defaultConfig.entry,
-		//admin: path.resolve(__dirname, "src", "admin", "style.scss"),
-	},
 	module: {
 		...defaultConfig.module,
 		rules: [...defaultConfig.module.rules],
