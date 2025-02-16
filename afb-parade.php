@@ -26,6 +26,8 @@ require __DIR__.'/build/admin/gads-conversion-settings.php';
 require __DIR__.'/build/admin/settings-menu.php';
 require __DIR__.'/build/bts/google-ads-conversion/init_gads_conversion.php';
 require __DIR__.'/build/bts/meta-ads-conversion/init_meta_ads_conversion.php';
+require __DIR__.'/build/bts/event-schema/event-schema.php';
+
 
 function aosp_afb_parade_block_init() {
 	$staticBlocksToRegister = ["leader-bio"];
@@ -38,6 +40,10 @@ function aosp_afb_parade_block_init() {
 	foreach( $dynamicBlocksToRegister as $dir => $callback){
 		register_block_type( __DIR__ . '/build/blocks/'.$dir, array("render_callback" => $callback));
 	}
+
+	//if(get_post_type() == afbp\EventManager::EVENT_POST){
+		add_action( "wp_footer", 'afbp\createSchema');
+	//}
 }
 add_action( 'init', 'aosp_afb_parade_block_init' );
 
@@ -49,4 +55,36 @@ add_action( 'init', 'aosp_afb_parade_block_init' );
 
 add_action('wp_enqueue_scripts', 'conditional_enqueue_google_ads');
 add_action('wp_enqueue_scripts', 'conditional_enqueue_meta_ads');
+
+add_action( 'add_meta_boxes', function () {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		// Don't display the metabox to users who can't manage options
+		return;
+	}
+
+	add_meta_box( 'wpcode-view-post-meta', 'Post Meta', function () {
+		$custom_fields = get_post_meta( get_the_ID() );
+		?>
+		<table style="width: 100%; text-align: left;">
+			<thead>
+			<tr>
+				<th style="width: 28%">Meta Key</th>
+				<th style="width: 70%">Value</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ( $custom_fields as $key => $values ) {
+				?>
+				<?php foreach ( $values as $value ) { ?>
+					<tr>
+						<td><?php echo esc_html( $key ); ?></td>
+						<td><code><?php echo esc_html( $value ); ?></code></td>
+					</tr>
+				<?php } ?>
+			<?php } ?>
+			</tbody>
+		</table>
+		<?php
+	}, get_post_type() );
+} );
 
