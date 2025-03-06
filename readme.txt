@@ -15,6 +15,15 @@ This is the long description. No limit, and you can use Markdown (as well as in 
 For backwards compatibility, if this section is missing, the full length of the short description will be used, and
 Markdown parsed.
 
+== Features ==
+
+This plugin provides the following features to your WordPress site:
+
+*   **Leader Bio Block:** A custom block to display information about team members.
+*   **Conditional Query Params Block:** A custom block that allows content to be displayed conditionally based on query parameters.
+*   **Google Ads Conversion:** Allows for tracking and reporting Google Ads conversions.
+*   **Meta Ads Conversion:** Allows for tracking and reporting Meta Ads conversions.
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
