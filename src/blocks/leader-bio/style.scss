@@ -6,49 +6,57 @@
  */
 
 .wp-block-aosp-afb-parade-bio-block {
-	.afb-profile{
+
+	.afb-profile {
 		width: 95%;
 		background-color: transparent;
 		text-align: center;
 
-		img.headshot-img{
-			&.large{
+		img.headshot-img {
+
+			&.large {
 				width: 19em !important;
 				height: 19em !important;
 			}
-			&.small{
+
+			&.small {
 				width: 14em !important;
 				height: 14em !important;
 			}
 			object-fit: cover;
 			margin: auto;
 		}
-		
+
 	}
-	
-	
-	.name{
+
+
+	.name {
 		font-size: larger;
 		font-weight: bolder;
 	}
-	.pronouns{
-		font-weight: normal;
+
+	.pronouns {
+		font-weight: 400;
 		font-style: italic;
 		font-size: smaller;
 	}
-	.email{
-		color: black;
+
+	.email {
+		color: #000;
 		font-weight: lighter;
 		text-decoration: none;
-		&.large{
+
+		&.large {
 			font-size: 1em;
 		}
-		&.small{
+
+		&.small {
 			font-size: 0.75em;
 		}
-		&:hover{
+
+		&:hover {
 			font-weight: bolder;
-			color: #F36523;
+			color: #f36523;
 		}
 	}
 }

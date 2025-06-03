@@ -6,25 +6,27 @@
 
 .wp-block-aosp-afb-parade {
 	border: 1px dotted #f00;
-	
+
 }
 
-.afb-editor{
-	&.img-upload{
+.afb-editor {
+
+	&.img-upload {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
-	.img-preview{
-	width: 10rem !important;
-	height: 10rem !important;
-	object-fit: cover;
-	margin: auto;
+
+	.img-preview {
+		width: 10rem !important;
+		height: 10rem !important;
+		object-fit: cover;
+		margin: auto;
 	}
-	& *{
+
+	* {
 		margin-top: 2em;
 	}
 	margin-bottom: 2em;
 }
-
 

@@ -26,7 +26,7 @@
 		},
 		"matchType": {
 			"type": "string",
-			"enum": ["noParams", "paramOnly", "paramAndValue"],
+			"enum": [ "noParams", "paramOnly", "paramAndValue" ],
 			"default": "paramOnly"
 		}
 	}

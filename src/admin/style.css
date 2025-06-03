@@ -1,15 +1,15 @@
 .afb-admin h1,
 .afb-admin h2,
 .afb-admin h3 {
-  color: darkblue;
-}
-.afb-admin p,
-.afb-admin h4 {
-  color: black;
-  padding-left: 10px;
-}
-.afb-admin h3 {
-  font-size: small;
+	color: #00008b;
 }
 
-/*# sourceMappingURL=style.css.map */
+.afb-admin p,
+.afb-admin h4 {
+	color: #000;
+	padding-left: 10px;
+}
+
+.afb-admin h3 {
+	font-size: small;
+}
