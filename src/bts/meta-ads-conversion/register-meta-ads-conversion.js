@@ -1,11 +1,8 @@
-(function () {
-	console.log("FBQ conversion tag loaded");
-	//For Debugging Only
-	function fbq() {
-		window.fbdebug = window.fbdebug || [];
-		window.fbdebug.push(arguments);
-	}
-	if (!typeof fbq == "function") {
+(function fbconvert(count = 0) {
+	if (count > 5) return; //5 retries
+	if (typeof fbq != "function") {
+		console.log(`fbq not loaded yet, retrying (retry ${count})`)
+		setTimeout(e=>fbconvert(count++), 2000);
 		return;
 	} //exit if FBQ hasn't loaded
 

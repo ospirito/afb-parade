@@ -5,6 +5,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
 	...defaultConfig,
+	entry: {
+		...(() => {
+			const entry = typeof defaultConfig.entry === 'function' ? defaultConfig.entry() : defaultConfig.entry;
+			return entry || {};
+		})(),
+		"plugins/shortlink-sidebar": "./src/plugins/shortlink-sidebar/index.js",
+		"admin-bar/shortlink-modal": "./src/admin-bar/shortlink-modal.js",
+		"shortlink-manager": "./src/admin/shortlink-manager.js"
+	},
 	module: {
 		...defaultConfig.module,
 		rules: [...defaultConfig.module.rules],
