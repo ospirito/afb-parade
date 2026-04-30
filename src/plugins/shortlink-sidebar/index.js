@@ -7,16 +7,17 @@ import apiFetch from "@wordpress/api-fetch";
 
 const ShortlinkSidebar = () => {
 	const currentPostId = useSelect((select) => select("core/editor").getCurrentPostId(), []);
-	
+
 	const [shortlinks, setShortlinks] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [notice, setNotice] = useState(null);
 	const [slug, setSlug] = useState("");
+	const [qrCodeUrl, setQrCodeUrl] = useState(null);
 	const defaultParams = window.AFBShortlinkData?.defaultParams || [{ key: "", value: "" }];
 	const [queryParams, setQueryParams] = useState(defaultParams);
 	const [editingId, setEditingId] = useState(null);
 	const [copiedId, setCopiedId] = useState(null);
-	
+
 	const fetchShortlinks = async () => {
 		setIsLoading(true);
 		try {
@@ -39,7 +40,7 @@ const ShortlinkSidebar = () => {
 		if (!currentPostId) return;
 		setIsLoading(true);
 		setNotice(null);
-		
+
 		const queryString = queryParams
 			.filter((p) => p.key.trim() !== '' && p.value.trim() !== '')
 			.map((p) => `${encodeURIComponent(p.key.trim())}=${encodeURIComponent(p.value.trim())}`)
@@ -109,7 +110,7 @@ const ShortlinkSidebar = () => {
 	const startEditing = (link) => {
 		setEditingId(link.id);
 		setSlug(link.slug);
-		
+
 		if (link.query_params) {
 			const pairs = link.query_params.split('&').map(pair => {
 				const [key, value] = pair.split('=').map(decodeURIComponent);
@@ -160,7 +161,7 @@ const ShortlinkSidebar = () => {
 						help="e.g. 'summer-event'"
 						__nextHasNoMarginBottom
 					/>
-					
+
 					<div style={{ marginTop: "15px", marginBottom: "15px" }}>
 						<strong>Query Parameters</strong>
 						{queryParams.map((param, index) => (
@@ -185,10 +186,10 @@ const ShortlinkSidebar = () => {
 									}}
 									__nextHasNoMarginBottom
 								/>
-								<Button 
+								<Button
 									variant="link"
-									isDestructive 
-									size="small" 
+									isDestructive
+									size="small"
 									style={{ marginBottom: '8px' }}
 									onClick={() => {
 										const newParams = queryParams.filter((_, i) => i !== index);
@@ -224,7 +225,7 @@ const ShortlinkSidebar = () => {
 					<ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
 						{shortlinks.map((link) => (
 							<li key={link.id} style={{ marginBottom: "15px", padding: "10px", border: "1px solid #ddd", borderRadius: "4px", backgroundColor: editingId === link.id ? "#f0f0f0" : "transparent" }}>
-								<div 
+								<div
 									onClick={() => copyToClipboard(link.id, `${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`)}
 									style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
 									title="Click to copy shortlink"
@@ -254,7 +255,26 @@ const ShortlinkSidebar = () => {
 									<Button variant="primary" isDestructive size="small" onClick={() => deleteShortlink(link.id)}>
 										Delete
 									</Button>
+									<Button
+										variant="secondary"
+										size="small"
+										icon="grid-view"
+										onClick={() => {
+											const url = `${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`;
+											setQrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`);
+										}}
+										title="View QR Code"
+									/>
 								</div>
+								{qrCodeUrl && qrCodeUrl.includes(link.slug) && (
+									<div style={{ marginTop: "10px", textAlign: "center", background: "#f9f9f9", padding: "10px", borderRadius: "4px" }}>
+										<img src={qrCodeUrl} alt="QR Code" style={{ maxWidth: "100%" }} />
+										<div style={{ marginTop: "5px", display: "flex", justifyContent: "center", gap: "10px" }}>
+											<Button variant="link" onClick={() => window.open(qrCodeUrl, '_blank')}>Download QR</Button>
+											<Button variant="link" isDestructive onClick={() => setQrCodeUrl(null)}>Close</Button>
+										</div>
+									</div>
+								)}
 							</li>
 						))}
 						{shortlinks.length === 0 && <p>No shortlinks yet.</p>}

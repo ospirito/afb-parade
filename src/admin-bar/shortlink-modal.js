@@ -8,6 +8,7 @@ const ShortlinkAdminModal = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [notice, setNotice] = useState(null);
 	const [slug, setSlug] = useState("");
+	const [qrCodeUrl, setQrCodeUrl] = useState(null);
 	const defaultParams = window.AFBShortlinkData?.defaultParams || [{ key: "", value: "" }];
 	const [queryParams, setQueryParams] = useState(defaultParams);
 	const [editingId, setEditingId] = useState(null);
@@ -253,13 +254,31 @@ const ShortlinkAdminModal = () => {
 								</div>
 							)}
 							<div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-								<Button isSecondary onClick={() => startEditing(link)}>
+								<Button variant="secondary" onClick={() => startEditing(link)}>
 									Edit
 								</Button>
-								<Button isDestructive onClick={() => deleteShortlink(link.id)}>
+								<Button variant="primary" isDestructive onClick={() => deleteShortlink(link.id)}>
 									Delete
 								</Button>
+								<Button 
+									variant="secondary" 
+									icon="grid-view" 
+									onClick={() => {
+										const url = `${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`;
+										setQrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`);
+									}}
+									title="View QR Code"
+								/>
 							</div>
+							{qrCodeUrl && qrCodeUrl.includes(link.slug) && (
+								<div style={{ marginTop: "10px", textAlign: "center", background: "#f9f9f9", padding: "10px", borderRadius: "4px" }}>
+									<img src={qrCodeUrl} alt="QR Code" style={{ maxWidth: "100%" }} />
+									<div style={{ marginTop: "5px", display: "flex", justifyContent: "center", gap: "10px" }}>
+										<Button variant="link" onClick={() => window.open(qrCodeUrl, '_blank')}>Download QR</Button>
+										<Button variant="link" isDestructive onClick={() => setQrCodeUrl(null)}>Close</Button>
+									</div>
+								</div>
+							)}
 						</li>
 					))}
 					{shortlinks.length === 0 && <p>No shortlinks yet.</p>}
