@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__."/gads-conversion-settings.php");
 require_once(__DIR__."/meta-ads-conversion-settings.php");
+require_once(__DIR__."/shortlink-settings.php");
 
 class AFBP_Settings{
     public function __construct() {
@@ -37,13 +38,16 @@ class AFBP_Settings{
 				<h4>Conditional Query Params</h4>
 			<h3>Behind-the-scenes features</h3>
 				<h4>Google Ads Conversions</h4>
+				<h4>URL Shortener</h4>
 		</div>
         <?php
     }
 }
 
-if ( is_admin() )
+if ( is_admin() ) {
 	$afbp_settings = new AFBP_Settings();
     $google_ads_conversions = new AFBP_GoogleAdsConversions();
 	$meta_ads_conversions = new AFBP_MetaAdsConversions();
+	$shortlink_settings = new AFBP_ShortlinkSettings();
+}
 ?>
