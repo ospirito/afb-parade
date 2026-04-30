@@ -31,10 +31,10 @@ require __DIR__ . '/build/bts/google-ads-conversion/init_gads_conversion.php';
 require __DIR__ . '/build/bts/meta-ads-conversion/init_meta_ads_conversion.php';
 
 // Shortlinks module
-require __DIR__ . '/src/bts/shortlinks/shortlink-cpt.php';
-require __DIR__ . '/src/bts/shortlinks/shortlink-api.php';
-require __DIR__ . '/src/bts/shortlinks/shortlink-redirect.php';
-require __DIR__ . '/src/admin-bar/shortlink-admin-bar.php';
+require __DIR__ . '/build/bts/shortlinks/shortlink-cpt.php';
+require __DIR__ . '/build/bts/shortlinks/shortlink-api.php';
+require __DIR__ . '/build/bts/shortlinks/shortlink-redirect.php';
+require __DIR__ . '/build/admin-bar/shortlink-admin-bar.php';
 
 function afb_shortlink_enqueue_block_editor_assets()
 {

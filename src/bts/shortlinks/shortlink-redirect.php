@@ -6,6 +6,7 @@
 // Register Rewrite Rule
 function afb_shortlink_rewrite_rule() {
 	add_rewrite_rule( '^s/([^/]+)/?$', 'index.php?afb_shortlink_slug=$matches[1]', 'top' );
+	add_rewrite_rule( '^s/?$', 'index.php?afb_shortlink_slug=__home__', 'top' );
 }
 add_action( 'init', 'afb_shortlink_rewrite_rule' );
 
@@ -21,6 +22,10 @@ function afb_shortlink_template_redirect() {
 	$slug = get_query_var( 'afb_shortlink_slug' );
 	
 	if ( ! empty( $slug ) ) {
+		if ( '__home__' === $slug ) {
+			wp_redirect( home_url( '/' ), 301 );
+			exit;
+		}
 		$args = array(
 			'name'        => $slug,
 			'post_type'   => 'afb_shortlink',
@@ -58,4 +63,4 @@ function afb_shortlink_flush_rules() {
 	afb_shortlink_rewrite_rule();
 	flush_rewrite_rules();
 }
-register_activation_hook( __FILE__, 'afb_shortlink_flush_rules' );
+register_activation_hook( AFB_PARADE_PATH . 'afb-parade.php', 'afb_shortlink_flush_rules' );
