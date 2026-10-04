@@ -2,7 +2,7 @@
 	if (count > 5) return; //5 retries
 	if (typeof fbq != "function") {
 		console.log(`fbq not loaded yet, retrying (retry ${count})`)
-		setTimeout(e=>fbconvert(count++), 2000);
+		setTimeout(() => fbconvert(count + 1), 2000);
 		return;
 	} //exit if FBQ hasn't loaded
 

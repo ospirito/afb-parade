@@ -13,8 +13,27 @@ const ShortlinkAdminModal = () => {
 	const [queryParams, setQueryParams] = useState(defaultParams);
 	const [editingId, setEditingId] = useState(null);
 	const [copiedId, setCopiedId] = useState(null);
+	const [activeQrLinkId, setActiveQrLinkId] = useState(null);
 
 	const postId = window.AFBShortlinkData?.postId;
+
+	const downloadQrCode = (qrUrl, slug) => {
+		fetch(qrUrl)
+			.then((res) => res.blob())
+			.then((blob) => {
+				const blobUrl = URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = blobUrl;
+				a.download = `${slug || "shortlink"}-qrcode.png`;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(blobUrl);
+			})
+			.catch(() => {
+				window.open(qrUrl, "_blank", "noopener,noreferrer");
+			});
+	};
 
 	useEffect(() => {
 		const btn = document.querySelector("#wp-admin-bar-afb-shortlink-btn a");
@@ -228,59 +247,66 @@ const ShortlinkAdminModal = () => {
 				<Spinner />
 			) : (
 				<ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
-					{shortlinks.map((link) => (
-						<li key={link.id} style={{ marginBottom: "15px", padding: "10px", border: "1px solid #ddd", borderRadius: "4px", backgroundColor: editingId === link.id ? "#f0f0f0" : "transparent" }}>
-							<div
-								onClick={() => copyToClipboard(link.id, `${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`)}
-								style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-								title="Click to copy shortlink"
-							>
-								<strong>{window.AFBShortlinkData?.baseDomain || "/s/"}{link.slug}</strong>
-								{copiedId === link.id && (
-									<span style={{ fontSize: "10px", color: "#46b450", fontWeight: "bold", textTransform: "uppercase" }}>Copied!</span>
-								)}
-							</div>
-							{link.query_params && (
-								<div style={{ fontSize: "11px", color: "#666", marginTop: "8px", borderTop: "1px solid #eee", paddingTop: "8px" }}>
-									{link.query_params.split('&').map(pair => {
-										const [k, v] = pair.split('=').map(decodeURIComponent);
-										return (
-											<div key={pair} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-												<span style={{ fontWeight: '600', color: '#888' }}>{k}</span>
-												<span style={{ color: '#444' }}>{v}</span>
-											</div>
-										);
-									})}
-								</div>
-							)}
-							<div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-								<Button variant="secondary" onClick={() => startEditing(link)}>
-									Edit
-								</Button>
-								<Button variant="primary" isDestructive onClick={() => deleteShortlink(link.id)}>
-									Delete
-								</Button>
-								<Button 
-									variant="secondary" 
-									icon="grid-view" 
-									onClick={() => {
-										const url = `${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`;
-										setQrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`);
-									}}
-									title="View QR Code"
-								/>
-							</div>
-							{qrCodeUrl && qrCodeUrl.includes(link.slug) && (
-								<div style={{ marginTop: "10px", textAlign: "center", background: "#f9f9f9", padding: "10px", borderRadius: "4px" }}>
-									<img src={qrCodeUrl} alt="QR Code" style={{ maxWidth: "100%" }} />
-									<div style={{ marginTop: "5px", display: "flex", justifyContent: "center", gap: "10px" }}>
-										<Button variant="link" onClick={() => window.open(qrCodeUrl, '_blank')}>Download QR</Button>
-										<Button variant="link" isDestructive onClick={() => setQrCodeUrl(null)}>Close</Button>
+					{shortlinks.map((link) => {
+						const isQrActive = activeQrLinkId === link.id;
+						const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`)}`;
+
+						return (
+							<li key={link.id} style={{ marginBottom: "15px", padding: "10px", border: "1px solid #ddd", borderRadius: "4px", backgroundColor: editingId === link.id ? "#f0f0f0" : "transparent" }}>
+								<div
+									onClick={() => copyToClipboard(link.id, `${window.AFBShortlinkData?.baseDomain || "/s/"}${link.slug}`)}
+									style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+									title="Click to copy shortlink"
+								>
+									<strong>{window.AFBShortlinkData?.baseDomain || "/s/"}{link.slug}</strong>
+									<div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+										{copiedId === link.id && (
+											<span style={{ fontSize: "10px", color: "#46b450", fontWeight: "bold", textTransform: "uppercase" }}>Copied!</span>
+										)}
+										<span style={{ backgroundColor: "#2271b1", color: "#fff", padding: "1px 6px", borderRadius: "10px", fontSize: "10px", fontWeight: "bold" }} title="Total hits">
+											{link.hits_count || 0} {link.hits_count === 1 ? "hit" : "hits"}
+										</span>
 									</div>
 								</div>
-							)}
-						</li>
-					))}
+								{link.query_params && (
+									<div style={{ fontSize: "11px", color: "#666", marginTop: "8px", borderTop: "1px solid #eee", paddingTop: "8px" }}>
+										{link.query_params.split('&').map(pair => {
+											const [k, v] = pair.split('=').map(decodeURIComponent);
+											return (
+												<div key={pair} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+													<span style={{ fontWeight: '600', color: '#888' }}>{k}</span>
+													<span style={{ color: '#444' }}>{v}</span>
+												</div>
+											);
+										})}
+									</div>
+								)}
+								<div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+									<Button variant="secondary" onClick={() => startEditing(link)}>
+										Edit
+									</Button>
+									<Button variant="primary" isDestructive onClick={() => deleteShortlink(link.id)}>
+										Delete
+									</Button>
+									<Button 
+										variant={isQrActive ? "primary" : "secondary"} 
+										icon="grid-view" 
+										onClick={() => setActiveQrLinkId(isQrActive ? null : link.id)}
+										title={isQrActive ? "Hide QR Code" : "View QR Code"}
+									/>
+								</div>
+								{isQrActive && (
+									<div style={{ marginTop: "10px", textAlign: "center", background: "#f9f9f9", padding: "10px", borderRadius: "4px", border: "1px solid #ddd" }}>
+										<img src={qrUrl} alt="QR Code" style={{ maxWidth: "100%", height: "auto" }} />
+										<div style={{ marginTop: "5px", display: "flex", justifyContent: "center", gap: "10px" }}>
+											<Button variant="link" onClick={() => downloadQrCode(qrUrl, link.slug)}>Download QR</Button>
+											<Button variant="link" isDestructive onClick={() => setActiveQrLinkId(null)}>Close</Button>
+										</div>
+									</div>
+								)}
+							</li>
+						);
+					})}
 					{shortlinks.length === 0 && <p>No shortlinks yet.</p>}
 				</ul>
 			)}

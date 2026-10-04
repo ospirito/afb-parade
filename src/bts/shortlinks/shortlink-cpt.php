@@ -8,8 +8,8 @@ function afb_register_shortlink_cpt() {
 		'label'               => 'Shortlinks',
 		'public'              => false, // We don't want these to be queryable natively except via our API
 		'publicly_queryable'  => false,
-		'show_ui'             => true, // Show in admin menu just in case admin wants to see them
-		'show_in_menu'        => true,
+		'show_ui'             => true,
+		'show_in_menu'        => false, // Keep UI/REST available without adding a standalone top-level menu item
 		'show_in_rest'        => true, // Enable REST API
 		'rest_base'           => 'afb-shortlinks',
 		'supports'            => array( 'title' ),
@@ -26,6 +26,21 @@ function afb_register_shortlink_cpt() {
 		'description'  => 'Target post or page ID',
 		'single'       => true,
 		'show_in_rest' => true,
+	) );
+
+	register_post_meta( 'afb_shortlink', '_target_url', array(
+		'type'         => 'string',
+		'description'  => 'Arbitrary target URL',
+		'single'       => true,
+		'show_in_rest' => true,
+	) );
+
+	register_post_meta( 'afb_shortlink', '_hits_count', array(
+		'type'         => 'integer',
+		'description'  => 'Number of hits / redirects',
+		'single'       => true,
+		'show_in_rest' => true,
+		'default'      => 0,
 	) );
 
 	register_post_meta( 'afb_shortlink', '_query_params', array(

@@ -21,7 +21,12 @@ function afb_register_shortlink_api() {
 		array(
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => 'afb_get_all_shortlinks',
-			'permission_callback' => function() { return current_user_can('manage_options'); },
+			'permission_callback' => function() { return current_user_can('manage_options') || current_user_can('edit_posts'); },
+		),
+		array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => 'afb_create_shortlink',
+			'permission_callback' => function() { return current_user_can('manage_options') || current_user_can('edit_posts'); },
 		),
 		array(
 			'methods'             => WP_REST_Server::DELETABLE,
@@ -60,8 +65,12 @@ function afb_shortlink_delete_permissions_check( $request ) {
 	}
 
 	$target_post_id = get_post_meta( $id, '_target_page_id', true );
-	if ( ! current_user_can( 'edit_post', $target_post_id ) ) {
+	if ( $target_post_id && ! current_user_can( 'edit_post', $target_post_id ) ) {
 		return new WP_Error( 'rest_forbidden', 'You cannot delete shortlinks for this post.', array( 'status' => 401 ) );
+	}
+
+	if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'edit_posts' ) ) {
+		return new WP_Error( 'rest_forbidden', 'You do not have permission to delete shortlinks.', array( 'status' => 401 ) );
 	}
 
 	return true;
@@ -87,10 +96,16 @@ function afb_get_shortlinks_for_post( $request ) {
 	$shortlinks = array();
 
 	foreach ( $query->posts as $post ) {
+		$target_url_meta = get_post_meta( $post->ID, '_target_url', true );
+		$hits_count = (int) get_post_meta( $post->ID, '_hits_count', true );
+		$target_url = ! empty( $target_url_meta ) ? $target_url_meta : ( $post_id ? get_permalink( $post_id ) : '' );
+
 		$shortlinks[] = array(
 			'id'           => $post->ID,
 			'slug'         => $post->post_title,
 			'query_params' => get_post_meta( $post->ID, '_query_params', true ),
+			'target_url'   => $target_url,
+			'hits_count'   => $hits_count,
 		);
 	}
 
@@ -101,6 +116,7 @@ function afb_create_shortlink_for_post( $request ) {
 	$post_id = $request['post_id'];
 	$slug = $request->get_param( 'slug' );
 	$query_params = $request->get_param( 'query_params' );
+	$target_url = $request->get_param( 'target_url' );
 
 	if ( empty( $slug ) ) {
 		$slug = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyz0123456789' ), 0, 5 );
@@ -126,12 +142,77 @@ function afb_create_shortlink_for_post( $request ) {
 	}
 
 	update_post_meta( $shortlink_id, '_target_page_id', $post_id );
+	if ( ! empty( $target_url ) ) {
+		update_post_meta( $shortlink_id, '_target_url', esc_url_raw( trim( $target_url ) ) );
+	}
 	update_post_meta( $shortlink_id, '_query_params', ltrim( $query_params, '?' ) );
+	update_post_meta( $shortlink_id, '_hits_count', 0 );
+
+	$final_target_url = ! empty( $target_url ) ? esc_url_raw( trim( $target_url ) ) : get_permalink( $post_id );
 
 	return rest_ensure_response( array(
 		'id'           => $shortlink_id,
 		'slug'         => $slug,
-		'query_params' => $query_params
+		'query_params' => $query_params,
+		'target_url'   => $final_target_url,
+		'hits_count'   => 0,
+	) );
+}
+
+function afb_create_shortlink( $request ) {
+	$slug = $request->get_param( 'slug' );
+	$target_url = $request->get_param( 'target_url' );
+	$target_post_id = $request->get_param( 'target_post_id' );
+	$query_params = $request->get_param( 'query_params' );
+
+	if ( empty( $slug ) ) {
+		$slug = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyz0123456789' ), 0, 5 );
+	}
+
+	$slug = sanitize_text_field( $slug );
+	$query_params = sanitize_text_field( $query_params );
+	$target_url = ! empty( $target_url ) ? esc_url_raw( trim( $target_url ) ) : '';
+
+	if ( empty( $target_url ) && empty( $target_post_id ) ) {
+		return new WP_Error( 'missing_target', 'A target URL or target post must be provided.', array( 'status' => 400 ) );
+	}
+
+	// Check if slug exists
+	$existing = get_page_by_title( $slug, OBJECT, 'afb_shortlink' );
+	if ( $existing ) {
+		return new WP_Error( 'slug_exists', 'This short link slug already exists.', array( 'status' => 400 ) );
+	}
+
+	$shortlink_id = wp_insert_post( array(
+		'post_title'  => $slug,
+		'post_type'   => 'afb_shortlink',
+		'post_status' => 'publish'
+	) );
+
+	if ( is_wp_error( $shortlink_id ) ) {
+		return $shortlink_id;
+	}
+
+	if ( ! empty( $target_post_id ) ) {
+		update_post_meta( $shortlink_id, '_target_page_id', (int) $target_post_id );
+	}
+	if ( ! empty( $target_url ) ) {
+		update_post_meta( $shortlink_id, '_target_url', $target_url );
+	}
+	update_post_meta( $shortlink_id, '_query_params', ltrim( $query_params, '?' ) );
+	update_post_meta( $shortlink_id, '_hits_count', 0 );
+
+	$final_target_url = ! empty( $target_url ) ? $target_url : ( $target_post_id ? get_permalink( $target_post_id ) : '' );
+	$final_title = ! empty( $target_post_id ) ? get_the_title( $target_post_id ) : $final_target_url;
+
+	return rest_ensure_response( array(
+		'id'                => $shortlink_id,
+		'slug'              => $slug,
+		'query_params'      => $query_params,
+		'target_post_id'    => $target_post_id ? (int) $target_post_id : 0,
+		'target_post_title' => $final_title,
+		'target_url'        => $final_target_url,
+		'hits_count'        => 0,
 	) );
 }
 
@@ -148,6 +229,8 @@ function afb_update_shortlink( $request ) {
 	$id = $request['id'];
 	$slug = $request->get_param( 'slug' );
 	$query_params = $request->get_param( 'query_params' );
+	$target_url = $request->get_param( 'target_url' );
+	$target_post_id = $request->get_param( 'target_post_id' );
 
 	if ( empty( $slug ) ) {
 		return new WP_Error( 'missing_slug', 'Slug cannot be empty.', array( 'status' => 400 ) );
@@ -167,12 +250,32 @@ function afb_update_shortlink( $request ) {
 		'post_title' => $slug,
 	) );
 
+	if ( $target_url !== null ) {
+		$target_url = ! empty( $target_url ) ? esc_url_raw( trim( $target_url ) ) : '';
+		update_post_meta( $id, '_target_url', $target_url );
+	}
+
+	if ( $target_post_id !== null ) {
+		update_post_meta( $id, '_target_page_id', (int) $target_post_id );
+	}
+
 	update_post_meta( $id, '_query_params', ltrim( $query_params, '?' ) );
 
+	$target_url_meta = get_post_meta( $id, '_target_url', true );
+	$target_page_id = (int) get_post_meta( $id, '_target_page_id', true );
+	$hits_count = (int) get_post_meta( $id, '_hits_count', true );
+
+	$final_target_url = ! empty( $target_url_meta ) ? $target_url_meta : ( $target_page_id ? get_permalink( $target_page_id ) : '' );
+	$final_title = $target_page_id ? get_the_title( $target_page_id ) : $final_target_url;
+
 	return rest_ensure_response( array(
-		'id'           => $id,
-		'slug'         => $slug,
-		'query_params' => $query_params
+		'id'                => $id,
+		'slug'              => $slug,
+		'query_params'      => $query_params,
+		'target_post_id'    => $target_page_id,
+		'target_post_title' => $final_title,
+		'target_url'        => $final_target_url,
+		'hits_count'        => $hits_count,
 	) );
 }
 
@@ -187,14 +290,21 @@ function afb_get_all_shortlinks() {
 	$shortlinks = array();
 
 	foreach ( $query->posts as $post ) {
-		$target_post_id = get_post_meta( $post->ID, '_target_page_id', true );
+		$target_post_id = (int) get_post_meta( $post->ID, '_target_page_id', true );
+		$target_url_meta = get_post_meta( $post->ID, '_target_url', true );
+		$hits_count = (int) get_post_meta( $post->ID, '_hits_count', true );
+
+		$target_url = ! empty( $target_url_meta ) ? $target_url_meta : ( $target_post_id ? get_permalink( $target_post_id ) : '' );
+		$target_title = $target_post_id ? get_the_title( $target_post_id ) : $target_url;
+
 		$shortlinks[] = array(
-			'id'              => $post->ID,
-			'slug'            => $post->post_title,
-			'query_params'    => get_post_meta( $post->ID, '_query_params', true ),
-			'target_post_id'  => $target_post_id,
-			'target_post_title' => get_the_title( $target_post_id ),
-			'target_url'      => get_permalink( $target_post_id ),
+			'id'                => $post->ID,
+			'slug'              => $post->post_title,
+			'query_params'      => get_post_meta( $post->ID, '_query_params', true ),
+			'target_post_id'    => $target_post_id,
+			'target_post_title' => $target_title,
+			'target_url'        => $target_url,
+			'hits_count'        => $hits_count,
 		);
 	}
 
@@ -209,9 +319,14 @@ function afb_shortlink_update_permissions_check( $request ) {
 	}
 
 	$target_post_id = get_post_meta( $id, '_target_page_id', true );
-	if ( ! current_user_can( 'edit_post', $target_post_id ) ) {
+	if ( $target_post_id && ! current_user_can( 'edit_post', $target_post_id ) ) {
 		return new WP_Error( 'rest_forbidden', 'You cannot update shortlinks for this post.', array( 'status' => 401 ) );
+	}
+
+	if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'edit_posts' ) ) {
+		return new WP_Error( 'rest_forbidden', 'You do not have permission to update shortlinks.', array( 'status' => 401 ) );
 	}
 
 	return true;
 }
+

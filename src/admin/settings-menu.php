@@ -11,7 +11,7 @@ class AFBP_Settings{
 	}
 
 	private function enqueue_styles(){
-		wp_enqueue_style('afbp-admin',plugin_dir_url( "./afb-parade/build/admin" )."admin/style.css");
+		wp_enqueue_style('afbp-admin', AFB_PARADE_URL . "build/admin/style.css");
 	}
 
 	public function afbp_settings_add_plugin_page() {

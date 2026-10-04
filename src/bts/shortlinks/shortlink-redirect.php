@@ -37,13 +37,25 @@ function afb_shortlink_template_redirect() {
 		if ( $shortlinks ) {
 			$shortlink = $shortlinks[0];
 			$target_id = get_post_meta( $shortlink->ID, '_target_page_id', true );
+			$target_url_meta = get_post_meta( $shortlink->ID, '_target_url', true );
 			$query_params = get_post_meta( $shortlink->ID, '_query_params', true );
 			
-			if ( $target_id ) {
+			$redirect_url = '';
+			if ( ! empty( $target_url_meta ) ) {
+				$redirect_url = $target_url_meta;
+			} elseif ( $target_id ) {
 				$redirect_url = get_permalink( $target_id );
+			}
+
+			if ( ! empty( $redirect_url ) ) {
 				if ( ! empty( $query_params ) ) {
 					$redirect_url .= ( parse_url( $redirect_url, PHP_URL_QUERY ) ? '&' : '?' ) . $query_params;
 				}
+
+				// Track hits per link
+				$hits = (int) get_post_meta( $shortlink->ID, '_hits_count', true );
+				update_post_meta( $shortlink->ID, '_hits_count', $hits + 1 );
+
 				wp_redirect( $redirect_url, 301 );
 				exit;
 			}
